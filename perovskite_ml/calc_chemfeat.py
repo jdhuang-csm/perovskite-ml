@@ -1,16 +1,3 @@
-#1/21/19: created v2 to add new chem features
-# Allow choice of Shannon ionic radius or Shannon crystal radius - crystal should correspond more closely to actual size in crystalline solid, but ionic more widely used
-# Generalized to non-oxide perovskites
-# Created separate site compositions and site features in Perovskite class
-# Calculate MX_ABE for each oxidation state combination
-# New features:
-# 	TM fraction and multivalent fraction
-# 	Cation ionization energy (oxidation-state-dependent)
-# 	Acceptor, donor, and net aliovalent doping magnitude
-# 	Goldschmidt predicted structure (oxidation-state-dependent)
-# 	Estimated perovskite formation enthalpy (oxidation-state-dependent)
-
-
 import numpy as np
 import pandas as pd
 import pymatgen as mg
@@ -21,11 +8,9 @@ import itertools
 from math import gcd
 import mendeleev as mdl
 
-print('loaded calc_chemfeat_2')
-
 #load elemental electrical conductivity data
-helper_dir = os.path.join(os.environ['HOME'],"OneDrive - Colorado School of Mines/Research/MIDDMI/TCO/scripts/helpers")
-elec_conductivity_df = pd.read_csv(os.path.join(helper_dir,'ElementalElectricalConductivity.txt'),sep='\t',skipfooter=1,engine='python')
+package_dir = os.path.split(os.path.realpath(__file__))[0]
+elec_conductivity_df = pd.read_csv(os.path.join(package_dir,'ElementalElectricalConductivity.txt'),sep='\t',skipfooter=1,engine='python')
 elec_conductivity = dict(zip(elec_conductivity_df['Symbol'],elec_conductivity_df['Electrical Conductivity (S/cm)']))
 
 
