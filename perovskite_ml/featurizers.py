@@ -6,7 +6,7 @@ import pymatgen as mg
 import collections
 from pymatgen.core.composition import Composition
 from pymatgen.core.molecular_orbitals import MolecularOrbitals
-from .calc_chemfeat import Perovskite
+from calc_chemfeat import Perovskite
 from matminer.featurizers.conversions import StrToComposition
 from matminer.featurizers.composition import ElementProperty, ValenceOrbital, CohesiveEnergy
 from matminer.featurizers.base import BaseFeaturizer
@@ -263,8 +263,9 @@ class PerovskiteProperty(BaseFeaturizer):
 		#ElementProperty.feature_labels() code as of 2/17/19
 		labels = []
 		for attr in self.ElementProperty.features:
+			src = self.ElementProperty.data_source.__class__.__name__
 			for stat in self.ElementProperty.stats:
-				labels.append("%s %s" % (stat, attr))
+				labels.append("{} {} {}".format(src, stat, attr))
 		
 		if labels!=self.ElementProperty.feature_labels():
 			raise Exception('ElementProperty features or labels have changed')

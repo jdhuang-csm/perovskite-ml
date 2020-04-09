@@ -6,13 +6,16 @@ import os
 import warnings
 import itertools
 from math import gcd
-import mendeleev as mdl
+# import mendeleev as mdl
+from matminer.utils.data import DemlData
 
-#load elemental electrical conductivity data
+# load elemental electrical conductivity data
 package_dir = os.path.split(os.path.realpath(__file__))[0]
 elec_conductivity_df = pd.read_csv(os.path.join(package_dir,'ElementalElectricalConductivity.txt'),sep='\t',skipfooter=1,engine='python')
 elec_conductivity = dict(zip(elec_conductivity_df['Symbol'],elec_conductivity_df['Electrical Conductivity (S/cm)']))
 
+# create DemlData instance for ionization energies
+deml_data = DemlData()
 
 class MatProjCalc:
 	def __init__(self,oxide_dict={}):
@@ -1179,7 +1182,8 @@ class Perovskite:
 					
 				#ionization energy
 				def ion_energy(el,ion_dict):
-					return sum([energy for num,energy in mdl.element(el.name).ionenergies.items() if num <= ion_dict[el]['OS']])
+					return deml_data.get_charge_dependent_property(el,ion_dict[el]['OS'],'total_ioniz')
+					# return sum([energy for num,energy in mdl.element(el.name).ionenergies.items() if num <= ion_dict[el]['OS']])
 				
 				ion_energy_mean = np.average([ion_energy(el,ion_dict) for el in cations],weights=cat_weights)
 				#self.site_mean_func(site,lambda el: ion_energy(el,ion_dict))

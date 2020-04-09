@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from dcor_jh import distcorr_array
+# from dcor_jh import distcorr_array
 from sklearn.preprocessing import StandardScaler
 
 #------------
@@ -53,8 +53,8 @@ def rank_correlation(df,response_col, return_coef=False,corr_type='pearson'):
 	
 	if corr_type=='pearson':
 		corr = np.corrcoef(df,rowvar=False)
-	elif corr_type=='distance':
-		corr = distcorr_array(df.values)
+	#elif corr_type=='distance':
+	#	corr = distcorr_array(df.values)
 	else:
 		raise ValueError(f'Invalid correlation type {corr_type}')
 	# get magnitude of each feature's correlation to the response
